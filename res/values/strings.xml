@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">ClickerCounter</string>
+    <string name="initialCount">0</string>
+    <string name="actionPlus">+</string>
+    <string name="actionMinus">-</string>
+    <string name="actionReset">0</string>
+
+</resources>
