@@ -17,21 +17,26 @@ public class MainActivity extends Activity {
     private TextSwitcher mSwitcher;
     private int currentCounter;
     private boolean allowVolumeDownToDecrement = false;
+    private Animation incrementIn, incrementOut, decrementIn, decrementOut;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		currentCounter = 0;
 		setContentView(R.layout.activity_main);
-        mSwitcher = (TextSwitcher) findViewById(R.id.switcher);
-         mSwitcher.setFactory(mFactory);
- 
-        Animation in = AnimationUtils.loadAnimation(this,
+		mSwitcher = (TextSwitcher) findViewById(R.id.switcher);
+		mSwitcher.setFactory(mFactory);
+
+		incrementIn = AnimationUtils.loadAnimation(this,
                 android.R.anim.slide_in_left);
-        Animation out = AnimationUtils.loadAnimation(this,
+		incrementOut = AnimationUtils.loadAnimation(this,
                 android.R.anim.slide_out_right);
-        mSwitcher.setInAnimation(in);
-        mSwitcher.setOutAnimation(out);
+		decrementIn = AnimationUtils.loadAnimation(this,
+                R.anim.slide_in_right);
+		decrementOut = AnimationUtils.loadAnimation(this,
+                R.anim.slide_out_left);
+        mSwitcher.setInAnimation(incrementIn);
+        mSwitcher.setOutAnimation(incrementOut);
         mSwitcher.setText(String.valueOf(currentCounter));
     }
 	
@@ -64,14 +69,25 @@ public class MainActivity extends Activity {
     };
 
 	public void incrementCounter(View v){
+        mSwitcher.setInAnimation(incrementIn);
+        mSwitcher.setOutAnimation(incrementOut);
 		currentCounter++;
         mSwitcher.setText(String.valueOf(currentCounter));
 	}
 	public void decrementCounter(View v){
+        mSwitcher.setInAnimation(decrementIn);
+        mSwitcher.setOutAnimation(decrementOut);
 		currentCounter--;
         mSwitcher.setText(String.valueOf(currentCounter));
 	}
 	public void resetCounter(View v){
+		if(currentCounter>0){
+	        mSwitcher.setInAnimation(decrementIn);
+	        mSwitcher.setOutAnimation(decrementOut);
+		} else {
+	        mSwitcher.setInAnimation(incrementIn);
+	        mSwitcher.setOutAnimation(incrementOut);
+		}
 		currentCounter = 0;
         mSwitcher.setText(String.valueOf(currentCounter));
 	}
