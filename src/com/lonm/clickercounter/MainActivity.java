@@ -15,12 +15,13 @@ import android.widget.ViewSwitcher.ViewFactory;
 public class MainActivity extends Activity {
 	
     private TextSwitcher mSwitcher;
-    private int currentCounter = 0;
+    private int currentCounter;
     private boolean allowVolumeDownToDecrement = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		currentCounter = 0;
 		setContentView(R.layout.activity_main);
         mSwitcher = (TextSwitcher) findViewById(R.id.switcher);
          mSwitcher.setFactory(mFactory);
@@ -33,6 +34,24 @@ public class MainActivity extends Activity {
         mSwitcher.setOutAnimation(out);
         mSwitcher.setText(String.valueOf(currentCounter));
     }
+	
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		outState.putInt("currentCounter", currentCounter);
+		super.onSaveInstanceState(outState);
+	};
+	
+
+	@Override
+	protected void onRestoreInstanceState (Bundle savedInstanceState) {
+		super.onRestoreInstanceState(savedInstanceState);
+		if(savedInstanceState.containsKey("currentCounter")){
+			currentCounter = savedInstanceState.getInt("currentCounter");
+		} else {
+			currentCounter = 0;
+		}
+        mSwitcher.setText(String.valueOf(currentCounter));
+	};
  
     private ViewFactory mFactory = new ViewFactory() {
         @Override
