@@ -6,5 +6,7 @@
     <string name="actionPlus">+</string>
     <string name="actionMinus">-</string>
     <string name="actionReset">0</string>
+    <string name="descriptVolDownAllow">Volume Down Decrements Counter</string>
+    <string name="descriptVolDownNotAllow">Volume Down Increments Counter</string>
 
 </resources>

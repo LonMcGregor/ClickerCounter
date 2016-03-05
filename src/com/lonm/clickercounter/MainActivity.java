@@ -3,9 +3,11 @@ package com.lonm.clickercounter;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
 import android.widget.ViewSwitcher.ViewFactory;
@@ -14,6 +16,7 @@ public class MainActivity extends Activity {
 	
     private TextSwitcher mSwitcher;
     private int currentCounter = 0;
+    private boolean allowVolumeDownToDecrement = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +31,7 @@ public class MainActivity extends Activity {
                 android.R.anim.slide_out_right);
         mSwitcher.setInAnimation(in);
         mSwitcher.setOutAnimation(out);
- 
+        mSwitcher.setText(String.valueOf(currentCounter));
     }
  
     private ViewFactory mFactory = new ViewFactory() {
@@ -53,4 +56,33 @@ public class MainActivity extends Activity {
 		currentCounter = 0;
         mSwitcher.setText(String.valueOf(currentCounter));
 	}
+	public void toggleVolumeDown(View v){
+		if(allowVolumeDownToDecrement){
+			allowVolumeDownToDecrement = false;
+			Button b = (Button) findViewById(R.id.buttonVolDown);
+			char [] newString = getString(R.string.descriptVolDownNotAllow).toCharArray();
+			b.setText(newString, 0, newString.length);
+		} else {
+			allowVolumeDownToDecrement = true;
+			Button b = (Button) findViewById(R.id.buttonVolDown);
+			char [] newString = getString(R.string.descriptVolDownAllow).toCharArray();
+			b.setText(newString, 0, newString.length);
+		}
+	}
+	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event){
+	    if (keyCode == KeyEvent.KEYCODE_VOLUME_UP){
+	    	incrementCounter(null);
+	    	return true;
+	    } else if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN && allowVolumeDownToDecrement){
+	    	decrementCounter(null);
+	    	return true;
+	    } else if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN){
+	    	incrementCounter(null);
+	    	return true;
+	    }
+	    return super.onKeyDown(keyCode, event);
+	}
+	
 }
