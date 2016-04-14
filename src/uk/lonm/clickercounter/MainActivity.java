@@ -1,4 +1,4 @@
-package com.lonm.clickercounter;
+package uk.lonm.clickercounter;
 
 import android.app.Activity;
 import android.os.Bundle;
